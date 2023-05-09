@@ -19,7 +19,20 @@ namespace PeopleManager.Ui.Mvc.Controllers
             var people = _database.People.ToList();
             return View(people);
         }
+        [HttpGet]
+        public IActionResult Create() {
+            return View();
+        }
 
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Person person) 
+        {
+            _database.People.Add(person);
+
+            _database.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
