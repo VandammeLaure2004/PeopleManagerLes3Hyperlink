@@ -7,9 +7,9 @@ namespace PeopleManager.Ui.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PeopleManagerDatabase _database;
+        private readonly PeopleManagerDbContext _database;
         
-        public HomeController(PeopleManagerDatabase database)
+        public HomeController(PeopleManagerDbContext database)
         {
             _database = database;
         }
@@ -18,7 +18,7 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var people = _database.People;
+            var people = _database.People.ToList();
             return View(people);
         }
 
@@ -38,7 +38,7 @@ namespace PeopleManager.Ui.Mvc.Controllers
         [HttpGet]
         public IActionResult Detail(int id)
         {
-            var people = _database.People;
+            var people = _database.People.ToList();
             var person = people.FirstOrDefault(p => p.Id == id);
 
             if (person is null)

@@ -1,15 +1,22 @@
-﻿using PeopleManager.Ui.Mvc.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PeopleManager.Ui.Mvc.Models;
+
 
 namespace PeopleManager.Ui.Mvc.Core
 {
-    public class PeopleManagerDatabase
+    public class PeopleManagerDbContext:DbContext
     {
-        public IList<Person> People { get; set; } = new List<Person>();
+        public PeopleManagerDbContext(DbContextOptions<PeopleManagerDbContext> options): base(options)
+        {
+        }
+
+        public DbSet<Person> People =>  Set<Person>();
+
 
 
         public void Seed()
         {
-            People = new List<Person>
+            People.AddRange( new List<Person>
             {
                 new Person
                 {
@@ -29,7 +36,9 @@ namespace PeopleManager.Ui.Mvc.Core
                     Description = "Opleidingshoofd"
                 },
                 new Person{Id = 4,FirstName = "Ebe", LastName = "Deketelaere", Email = "ebe.deketelaere@vives.be" }
-            };
+            });
+
+            SaveChanges();
         }
 
         
